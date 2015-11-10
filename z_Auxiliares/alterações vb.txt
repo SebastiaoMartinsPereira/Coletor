@@ -1,0 +1,4 @@
+criaçaõ do grid 
+
+
+grid resize - alterações para o grid PreopostasLiberadas.

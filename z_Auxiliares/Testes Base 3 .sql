@@ -1,0 +1,266 @@
+﻿
+SELECT TOP (10) codigoPROPOSTA,numeroPROPOSTA, CONVERT(nvarchar, P.dataLIBERACAOPROPOSTA,103)  +' '+ CONVERT(nvarchar, P.dataLIBERACAOPROPOSTA,108) as dataLIBERACAOPROPOSTA,clientePROPOSTA AS clientePROPOSTA, razaoEMPRESA,
+COALESCE(ordemseparacaoimpressaPROPOSTA,0) AS ordemseparacaoimpressaPROPOSTA, P.prioridadeLIBERACAOPROPOSTA,0 as volumesPROPOSTA
+FROM tb1601_Propostas (NOLOCK) 
+INNER JOIN tb1611_Liberacoes_Proposta P (NOLOCK) ON P.propostaLIBERACAOPROPOSTA = codigoPROPOSTA 
+LEFT JOIN tb1611_Liberacoes_Proposta C (NOLOCK) ON C.propostaLIBERACAOPROPOSTA = codigoPROPOSTA 
+LEFT JOIN tb0301_Empresas (NOLOCK) ON clientePROPOSTA = codigoEMPRESA
+WHERE statusPROPOSTA = 1 
+AND P.liberacaoLIBERACAOPROPOSTA = 1 
+AND C.liberacaoLIBERACAOPROPOSTA = 2 
+AND P.liberadoLIBERACAOPROPOSTA = 1  
+AND C.liberadoLIBERACAOPROPOSTA = 0
+AND P.prioridadeLIBERACAOPROPOSTA >= 0
+ORDER BY  P.prioridadeLIBERACAOPROPOSTA ASC,P.dataLIBERACAOPROPOSTA ASC
+
+
+update tb1611_Liberacoes_Proposta
+set prioridadeLIBERACAOPROPOSTA = 1
+where propostaLIBERACAOPROPOSTA in(
+80457,
+80396,
+80466,
+80471,
+76698,
+80446,
+75899)
+
+
+---                            ////////////////EXEMPLOS /////////////////////////
+
+--ESTE SELECT É UTILIZADO PARA RETORNAR INFORMAÇÕES DOS ITENS DAS PROPOSTAS.
+SELECT codigoITEMPROPOSTA,propostaITEMPROPOSTA,produtoRESERVA AS codigoPRODUTO,nomePRODUTO,partnumberPRODUTO,ean13PRODUTO,SUM(quantidadeRESERVA) AS QTD
+FROM tb1206_Reservas (NOLOCK) 
+INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA 
+INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO 
+LEFT JOIN tb1212_Lotes_Locais (NOLOCK) ON loteRESERVA = loteLOTELOCAL 
+LEFT JOIN tb1211_Locais ON codigoLOCAL = localLOTELOCAL 
+WHERE propostaITEMPROPOSTA = 80471
+AND tipodocRESERVA = 1602 
+AND statusITEMPROPOSTA = 3 
+AND separadoITEMPROPOSTA = 0  
+GROUP BY codigoITEMPROPOSTA,propostaITEMPROPOSTA,ean13PRODUTO,produtoRESERVA,produtoITEMPROPOSTA,
+nomePRODUTO,partnumberPRODUTO
+
+--PNUMBER:8098|DESCRICAO:Terminal Femea Jst 3.96 Fio 0.3 X 0.6|EAN13:7895479034365|LOTE:LT-01|SEQ:12340|QTD:2α
+
+SELECT TOP (1) codigoPROPOSTA,numeroPROPOSTA,dataLIBERACAOPROPOSTA,clientePROPOSTA,razaoEMPRESA,volumesPROPOSTA 
+FROM vwMobile_tb1601_Proposta 
+ORDER BY  Prioridade ASC,dataLIBERACAOPROPOSTA ASC 
+
+				SELECT codigoITEMPROPOSTA,propostaITEMPROPOSTA,statusseparadoITEMPROPOSTA,codigoprodutoITEMPROPOSTA,xmlSequenciaITEMPROPOSTA  
+				FROM tb0002_ItensProposta 
+				WHERE  statusseparadoITEMPROPOSTA = 1
+
+				select * from tb1651_Picking_Mobile
+				delete FROM tb1651_Picking_Mobile
+
+				UPDATE tb1651_Picking_Mobile
+				SET statusPIcKINGMOBILE = 0
+                WHERE codigoPICKINGMOBILE = 1091
+
+				UPDATE tb1651_Picking_Mobile
+				SET statusPIcKINGMOBILE = 1
+                WHERE codigoPICKINGMOBILE = 1086
+
+				UPDATE tb1602_Itens_Proposta
+				SET separadoITEMPROPOSTA = 0
+				WHERE codigoITEMPROPOSTA IN (1143211,1143212,1150875)
+
+
+				SELECT codigoITEMPROPOSTA,propostaITEMPROPOSTA,produtoITEMPROPOSTA,quantidadeITEMPROPOSTA,statusITEMPROPOSTA,separadoITEMPROPOSTA,xmlsequenciaITEMPROPOSTA 
+				FROM tb1602_Itens_Proposta 
+				WHERE propostaITEMPROPOSTA = 75899 AND codigoITEMPROPOSTA IN (1143211,1143212,1150875)
+
+				UPDATE tb1651_Picking_Mobile 
+				SET[statusPICKINGMOBILE] = 2,[horafimPICKINGMOBILE] = 8/31/2015 1:58:39 PM
+				WHERE propostaPICKINGMOBILE =  AND codigoPICKINGMOBILE = 0
+
+				UPDATE tb1651_Picking_Mobile
+				SET[statusPICKINGMOBILE] = 2,[horafimPICKINGMOBILE] = '8/31/2015 2:45:12 PM' 
+				WHERE propostaPICKINGMOBILE = 75899  AND codigoPICKINGMOBILE = 1046
+
+SELECT SUM(quantidadeRESERVA) AS QTD
+FROM tb1206_Reservas (NOLOCK)
+INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA
+INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO 
+INNER JOIN tb0504_Embalagens_Produtos ON codigoPRODUTO = produtoEMBALAGEMPRODUTO
+LEFT JOIN tb1212_Lotes_Locais (NOLOCK) ON loteRESERVA = loteLOTELOCAL 
+LEFT JOIN tb1211_Locais ON codigoLOCAL = localLOTELOCAL 
+WHERE propostaITEMPROPOSTA = 80471 
+AND tipodocRESERVA = 1602 
+AND statusITEMPROPOSTA = 3
+AND separadoITEMPROPOSTA = 0  
+GROUP BY codigoITEMPROPOSTA
+
+
+SELECT dbo.fn1211_SplitTitanium(1597,80471)
+SELECT dbo.fnSplitTitanium('52776,52788')
+SELECT * FROM  dbo.SplitTitanium('52776,52788',',')
+
+	SELECT nomeLOCAL 
+	FROM tb1205_Lotes
+	INNER JOIN tb1212_Lotes_Locais ON codigoLOTE = loteLOTELOCAL
+	INNER JOIN tb1211_Locais ON codigoLOCAL = localLOTELOCAL
+	WHERE codigoLOTE IN (SELECT * FROM  dbo.SplitTitanium(dbo.fn1211_LotesReservaProduto(1597,80471),',') ) AND produtoLOTE = 1597
+	ORDER BY nomeLOCAL ASC
+
+SELECT codigoITEMPROPOSTA,propostaITEMPROPOSTA,produtoRESERVA AS codigoPRODUTO,nomePRODUTO,partnumberPRODUTO,ean13PRODUTO,SUM(quantidadeRESERVA) AS QTD
+,quantidadeEMBALAGEMPRODUTO AS QtdEmbalagem
+,dbo.fn1211_LotesReservaProduto(produtoRESERVA,propostaITEMPROPOSTA) AS lotesRESERVA
+,DBO.fn1211_LocaisLoteProduto(produtoRESERVA,dbo.fn1211_LotesReservaProduto(produtoRESERVA,propostaITEMPROPOSTA)) AS locaisLOTES
+FROM tb1206_Reservas (NOLOCK)
+INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA
+INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO 
+INNER JOIN tb0504_Embalagens_Produtos ON codigobarrasEMBALAGEMPRODUTO = ean13PRODUTO
+LEFT JOIN tb1212_Lotes_Locais (NOLOCK) ON loteRESERVA = loteLOTELOCAL 
+LEFT JOIN tb1211_Locais ON codigoLOCAL = localLOTELOCAL 
+WHERE propostaITEMPROPOSTA = 80471 
+AND tipodocRESERVA = 1602 
+AND statusITEMPROPOSTA = 3
+AND separadoITEMPROPOSTA = 0  
+GROUP BY codigoITEMPROPOSTA,propostaITEMPROPOSTA,ean13PRODUTO,produtoRESERVA,nomePRODUTO,partnumberPRODUTO
+,quantidadeEMBALAGEMPRODUTO,codigobarrasEMBALAGEMPRODUTO
+ORDER BY codigoPRODUTO
+
+
+SELECT codigoEMBALAGEMPRODUTO,nomeEMBALAGEMPRODUTO,produtoEMBALAGEMPRODUTO,quantidadeEMBALAGEMPRODUTO,padraoEMBALAGEMPRODUTO,embalagemEMBALAGEMPRODUTO,codigobarrasEMBALAGEMPRODUTO
+, nomePRODUTO, quantidadeEMBALAGEMPRODUTO
+FROM tb0501_Produtos
+INNER JOIN tb0504_Embalagens_Produtos ON codigoPRODUTO = produtoEMBALAGEMPRODUTO
+WHERE produtoEMBALAGEMPRODUTO IN(
+									SELECT produtoRESERVA AS codigoPRODUTO
+									FROM tb1206_Reservas (NOLOCK)
+									INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA
+									INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO 
+									WHERE propostaITEMPROPOSTA = 80471 
+									AND tipodocRESERVA = 1602 
+									AND statusITEMPROPOSTA = 3
+									AND separadoITEMPROPOSTA = 0 
+									GROUP BY produtoRESERVA
+                                 )
+AND lixeiraPRODUTO = 0
+ORDER BY produtoEMBALAGEMPRODUTO
+
+
+SELECT codigoEMBALAGEMPRODUTO,nomeEMBALAGEMPRODUTO,produtoEMBALAGEMPRODUTO,quantidadeEMBALAGEMPRODUTO,padraoEMBALAGEMPRODUTO,embalagemEMBALAGEMPRODUTO,codigobarrasEMBALAGEMPRODUTO
+FROM tb0504_Embalagens_Produtos 
+INNER JOIN tb0501_Produtos ON codigoPRODUTO = produtoEMBALAGEMPRODUTO
+WHERE produtoEMBALAGEMPRODUTO IN(
+									SELECT produtoRESERVA AS codigoPRODUTO
+									FROM tb1206_Reservas (NOLOCK)
+									INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA
+									INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO 
+									WHERE propostaITEMPROPOSTA = 80471 
+									AND tipodocRESERVA = 1602 
+									AND statusITEMPROPOSTA = 3
+									AND separadoITEMPROPOSTA = 0 
+									GROUP BY produtoRESERVA
+                                 )
+AND lixeiraPRODUTO = 0
+ORDER BY produtoEMBALAGEMPRODUTO
+
+
+
+SELECT TOP 1 codigoPRODUTO, partnumberPRODUTO, nomePRODUTO, pathIMAGEMPRODUTO, quantidadeEMBALAGEMPRODUTO ,ean13PRODUTO,codigobarrasEMBALAGEMPRODUTO
+FROM tb0501_Produtos 
+INNER JOIN tb0504_Embalagens_Produtos ON codigoPRODUTO = produtoEMBALAGEMPRODUTO 
+LEFT JOIN tb0520_Imagens_Produtos ON codigoPRODUTO = produtosIMAGEMPRODUTO 
+WHERE produtoEMBALAGEMPRODUTO = 9869
+--codigobarrasEMBALAGEMPRODUTO = '7895479026650' 
+AND COALESCE(padraoIMAGEMPRODUTO,1) = 1 
+AND lixeiraPRODUTO = 0
+
+SELECT  dbo.fn1211_LotesReservaProduto(1245,75899)
+SELECT  DBO.fn1211_LocaisLoteProduto(1245,dbo.fn1211_LotesReservaProduto(1245,'75899')) AS locaisLOTES 
+
+SELECT codigoITEMPROPOSTA,propostaITEMPROPOSTA,produtoRESERVA AS codigoPRODUTO,nomePRODUTO,partnumberPRODUTO,ean13PRODUTO,
+SUM(quantidadeRESERVA) AS QTD,quantidadeEMBALAGEMPRODUTO AS QtdEmbalagem,
+dbo.fn1211_LotesReservaProduto(produtoRESERVA,propostaITEMPROPOSTA) AS lotesRESERVA
+,DBO.fn1211_LocaisLoteProduto(produtoRESERVA,dbo.fn1211_LotesReservaProduto(produtoRESERVA,propostaITEMPROPOSTA)) AS locaisLOTES 
+FROM tb1206_Reservas (NOLOCK) 
+INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA 
+INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO  
+INNER JOIN tb0504_Embalagens_Produtos ON codigobarrasEMBALAGEMPRODUTO = ean13PRODUTO 
+LEFT JOIN tb1212_Lotes_Locais (NOLOCK) ON loteRESERVA = loteLOTELOCAL  
+LEFT JOIN tb1211_Locais ON codigoLOCAL = localLOTELOCAL
+WHERE propostaITEMPROPOSTA = 80471  
+AND tipodocRESERVA = 1602  
+AND statusITEMPROPOSTA = 3 
+AND separadoITEMPROPOSTA = 0   
+GROUP BY codigoITEMPROPOSTA,propostaITEMPROPOSTA,ean13PRODUTO,produtoRESERVA,nomePRODUTO,partnumberPRODUTO ,
+quantidadeEMBALAGEMPRODUTO,codigobarrasEMBALAGEMPRODUTO
+ORDER BY codigoPRODUTO
+
+
+SELECT * FROM tb0504_Embalagens_Produtos WHERE produtoEMBALAGEMPRODUTO = 2155
+
+SELECT codigoEMBALAGEMPRODUTO,nomeEMBALAGEMPRODUTO,produtoEMBALAGEMPRODUTO,quantidadeEMBALAGEMPRODUTO,padraoEMBALAGEMPRODUTO,embalagemEMBALAGEMPRODUTO,codigobarrasEMBALAGEMPRODUTO 
+FROM tb0504_Embalagens_Produtos 
+INNER JOIN tb0501_Produtos ON codigoPRODUTO = produtoEMBALAGEMPRODUTO 
+WHERE produtoEMBALAGEMPRODUTO IN(
+									SELECT produtoRESERVA AS codigoPRODUTO	
+									FROM tb1206_Reservas (NOLOCK)
+									INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA
+									INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO
+									WHERE propostaITEMPROPOSTA = 75899
+									AND tipodocRESERVA = 1602
+									AND statusITEMPROPOSTA = 3
+									AND separadoITEMPROPOSTA = 0
+									GROUP BY produtoRESERVA                                 
+								) AND 
+lixeiraPRODUTO = 0 
+ORDER BY produtoEMBALAGEMPRODUTO
+
+
+
+SELECT codigoEMBALAGEMPRODUTO,nomeEMBALAGEMPRODUTO,produtoEMBALAGEMPRODUTO,quantidadeEMBALAGEMPRODUTO,padraoEMBALAGEMPRODUTO,embalagemEMBALAGEMPRODUTO,codigobarrasEMBALAGEMPRODUTO 
+FROM tb0504_Embalagens_Produtos 
+INNER JOIN tb0501_Produtos ON codigoPRODUTO = produtoEMBALAGEMPRODUTO 
+WHERE produtoEMBALAGEMPRODUTO IN(
+									SELECT produtoRESERVA AS codigoPRODUTO
+									FROM tb1206_Reservas (NOLOCK)
+									INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA
+									INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO
+									WHERE propostaITEMPROPOSTA = 80396
+									AND tipodocRESERVA = 1602 
+									AND statusITEMPROPOSTA = 3
+									AND separadoITEMPROPOSTA = 0
+									GROUP BY produtoRESERVA                                 
+									
+									) 
+									AND lixeiraPRODUTO = 0 
+									ORDER BY produtoEMBALAGEMPRODUTO
+
+
+SELECT codigoEMBALAGEMPRODUTO,COALESCE(nomeEMBALAGEMPRODUTO,'ND') AS nomeEMBALAGEMPRODUTO ,produtoEMBALAGEMPRODUTO,quantidadeEMBALAGEMPRODUTO,padraoEMBALAGEMPRODUTO,embalagemEMBALAGEMPRODUTO,
+codigobarrasEMBALAGEMPRODUTO 
+FROM tb0504_Embalagens_Produtos 
+INNER JOIN tb0501_Produtos ON codigoPRODUTO = produtoEMBALAGEMPRODUTO 
+WHERE produtoEMBALAGEMPRODUTO IN(
+									SELECT produtoRESERVA AS codigoPRODUTO
+									FROM tb1206_Reservas (NOLOCK)
+									INNER JOIN tb1602_Itens_Proposta (NOLOCK) ON codigoITEMPROPOSTA = docRESERVA
+									INNER JOIN tb0501_Produtos (NOLOCK) ON produtoITEMPROPOSTA = codigoPRODUTO
+									WHERE propostaITEMPROPOSTA = 75899
+									AND tipodocRESERVA = 1602
+									AND statusITEMPROPOSTA = 3
+									AND separadoITEMPROPOSTA = 0
+									GROUP BY produtoRESERVA                                 
+								) AND lixeiraPRODUTO = 0 
+ORDER BY produtoEMBALAGEMPRODUTO
+
+
+
+--============================TESTES COM EMBALAGENS 
+
+
+	SELECT        
+			TB_PROP.codigoPROPOSTA, TB_EMB.codigoEMBALAGEM, TB_EMB.nomeEMBALAGEM, TB_EMB.produtoEMBALAGEM, TB_EMB.quantidadeEMBALAGEM, TB_EMB.padraoEMBALAGEM,  TB_EMB.embalagemEMBALAGEM, TB_EMB.ean13EMBALAGEM, 
+			TB_PROP.numeroPROPOSTA, TB_PROP.codigopickingmobilePROPOSTA, COUNT(*) AS TLINHAS 
+			FROM            tb0002_ItensProposta AS TB_ITEM 
+			INNER JOIN tb0001_Propostas AS TB_PROP ON TB_ITEM.propostaITEMPROPOSTA = TB_PROP.codigoPROPOSTA 
+			INNER JOIN tb0005_Embalagens AS TB_EMB ON TB_ITEM.codigoprodutoITEMPROPOSTA = TB_EMB.produtoEMBALAGEM 
+	GROUP BY TB_PROP.codigoPROPOSTA, TB_EMB.codigoEMBALAGEM, TB_EMB.nomeEMBALAGEM, TB_EMB.produtoEMBALAGEM, TB_EMB.quantidadeEMBALAGEM, TB_EMB.padraoEMBALAGEM,  TB_EMB.embalagemEMBALAGEM, TB_EMB.ean13EMBALAGEM, 
+	TB_PROP.numeroPROPOSTA, TB_PROP.codigopickingmobilePROPOSTA 
+			HAVING        (TB_EMB.produtoEMBALAGEM = 1559)

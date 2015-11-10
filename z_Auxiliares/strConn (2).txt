@@ -1,0 +1,1 @@
+Provider=SQLNCLI10.1;Password=tec9TIT16;Persist Security Info=False;User ID=sa;Initial Catalog=TESTEVISITA;Data Source=rainha7.ddns.com.br

@@ -13,6 +13,8 @@ namespace TitaniumColector.Classes.Model
         private PadraoEmbalagem padrao;
         private Int32 produtoEmbalagem;
 
+        public event EventHandler pressButon;
+
         public enum PadraoEmbalagem { NAOPADRAO = 0, PADRAO = 1 }
 
         public Embalagem() { }

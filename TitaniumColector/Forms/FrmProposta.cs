@@ -31,7 +31,7 @@ namespace TitaniumColector.Forms
 
         //LIST
         //private List<ProdutoProposta> listaProdutoProposta;
-        private List<Produto> listaProduto;
+        //private List<Produto> listaProduto;
         private List<String> listInfoProposta;
         //private List<EmbalagemSeparacao> listEmbalagemSeparacao;
 
@@ -107,43 +107,6 @@ namespace TitaniumColector.Forms
             this.Close();
         }
      
-        /// <summary>
-        /// realiza o decremento do campo volume.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btDecrementaVol_Click(object sender, System.EventArgs e)
-        {
-            
-            FrmVolumes frmVolumes = new FrmVolumes();
-            frmVolumes.ShowDialog();
-
-            //String valor = ProcedimentosLiberacao.decrementaVolume();
-            //Bloco retirado após a inclusão d o form de gerenciar volumes.
-            //if (valor.Contains("Qtd"))
-            //{
-            //    tbMensagem.Text = valor;    
-            //}
-            //else 
-            //{
-            //    lbQtdVolumes.Text = valor;
-            //    tbMensagem.Text = "";
-            //}
-            //this.Focus();
-        }
-
-        /// <summary>
-        /// Realiza o incremento do campo volume
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btIncrementaVol_Click(object sender, System.EventArgs e)
-        {
-            lbQtdVolumes.Text = ProcedimentosLiberacao.incrementaVolume();
-            this.Focus();
-            tbMensagem.Text = "";
-        }
-
         /// <summary>
         /// Recebe o Valor de input durante a leitura do dispositivo.
         /// </summary>
@@ -283,20 +246,22 @@ namespace TitaniumColector.Forms
                     //Realiza o Insert na Base Mobile
                     daoProposta.insertProposta(objProposta, MainConfig.CodigoUsuarioLogado);
 
-                    ////Recupera List com itens da proposta
-                    //this.listaProdutoProposta = daoItemProposta.fillListItensProposta((int)objProposta.Codigo).ToList<ProdutoProposta>();
-                    ////Insert na Base Mobile tabela tb0002_ItensProsposta
-                    //daoItemProposta.insertItemProposta(listaProdutoProposta.ToList<ProdutoProposta>());
+                            ////Recupera List com itens da proposta
+                            //this.listaProdutoProposta = daoItemProposta.fillListItensProposta((int)objProposta.Codigo).ToList<ProdutoProposta>();
+                            ////Insert na Base Mobile tabela tb0002_ItensProsposta
+                            //daoItemProposta.insertItemProposta(listaProdutoProposta.ToList<ProdutoProposta>());
                      
                     //Recupera List com itens da proposta
                     //Insert na Base Mobile tabela tb0002_ItensProposta
                     daoItemProposta.insertItemProposta(daoItemProposta.fillListItensProposta((int)objProposta.Codigo).ToList<ProdutoProposta>());
 
-                    //Recupera informações sobre os produtos existentes na proposta
-                    this.listaProduto = daoProduto.fillListProduto((int)objProposta.Codigo).ToList<Produto>();
+                            //Recupera informações sobre os produtos existentes na proposta
+                            //this.listaProduto = daoProduto.fillListProduto((int)objProposta.Codigo).ToList<Produto>();
+                            //daoProduto.insertProdutoBaseMobile(listaProduto.ToList<Produto>());
 
                     //Insert na base Mobile tabela tb0003_Produtos
-                    daoProduto.insertProdutoBaseMobile(listaProduto.ToList<Produto>());
+                    //Recupera informações sobre os produtos existentes na proposta
+                    daoProduto.insertProdutoBaseMobile(daoProduto.fillListProduto((int)objProposta.Codigo).ToList<Produto>());
 
                     //Armazena informações de embalagens do produto na base mobile.
                     daoEmbalagem.insertEmbalagemBaseMobile(daoEmbalagem.cargaEmbalagensProduto((int)objProposta.Codigo));

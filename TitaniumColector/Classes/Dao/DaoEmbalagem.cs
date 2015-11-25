@@ -159,7 +159,10 @@ namespace TitaniumColector.Classes.Dao
             return listaEmbalagens;
            
         }
-
+        /// <summary>
+        /// Retorna informações da base de dados principal sobre as embalagens utilizadas para seeparação de produtos 
+        /// </summary>
+        /// <returns>Lista de objetos EmbalagemSeparacao</returns>
         public List<EmbalagemSeparacao> carregarEmbalagensSeparacao()
         {
 

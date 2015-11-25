@@ -16,6 +16,13 @@ namespace TitaniumColector.Classes.Procedimentos
         private static Double totalItens;
         private static Double totalPecas;
         private static Double qtdPecasItem;
+        private static Double pesoTotalEmbalagens;
+
+        public static Double PesoTotalEmbalagens
+        {
+            get { return ProcedimentosLiberacao.pesoTotalEmbalagens; }
+            set { ProcedimentosLiberacao.pesoTotalEmbalagens = value; }
+        }
         private static Int32 totalVolumes;
         private static Int32 proximaEtiqueta;
         private static List<Etiqueta> listEtiquetasLidas;
@@ -691,57 +698,6 @@ namespace TitaniumColector.Classes.Procedimentos
             return tipoEtiqueta;
         }
 
-        /// <summary>
-        /// Valida a Quantidade de volumes existentes e decrementa 1 se caso for possível.
-        /// </summary>
-        /// <returns>String com a Quantidade restante, ou uma mensagem informando que não foi possível realizar a alteração.</returns>
-        public static String decrementaVolume() 
-        {
-            if (TotalVolumes > 1)
-            {
-                --TotalVolumes;
-                return TotalVolumes.ToString();
-            }
-            return "Qtd Volumes não pode ser menor que 1.";
-        }
-
-        /// <summary>
-        /// Valida a Quantidade de volumes existentes e decrementa 1 se caso for possível.
-        /// </summary>
-        /// <returns>String com a Quantidade restante, ou uma mensagem informando que não foi possível realizar a alteração.</returns>
-        public static String decrementaVolume(int valor)
-        {
-            if (TotalVolumes > valor)
-            {
-                TotalVolumes -= valor;
-                return TotalVolumes.ToString();
-            }
-            return "Qtd Volumes não pode ser menor que 1.";
-        }
-
-        /// <summary>
-         /// Encrementa mais 1 a Quantidade de volumes atual.
-         /// </summary>
-         /// <returns>String com a Quantidade de volumes após a alteração
-         /// </returns>
-        public static String incrementaVolume() 
-        {
-            ++TotalVolumes;
-            return TotalVolumes.ToString();
-        }
-
-        /// <summary>
-        /// Encrementa mais 1 a Quantidade de volumes atual.
-        /// </summary>
-        /// <returns>String com a Quantidade de volumes após a alteração
-        /// </returns>
-        public static String incrementaVolume(int valor)
-        {
-            String teste = TotalVolumes.ToString();
-            TotalVolumes += valor;
-            return TotalVolumes.ToString();
-        }
-
         public static void interromperLiberacao(Proposta proposta)
         {
             if (!proposta.IsInterrompido) 
@@ -838,6 +794,8 @@ namespace TitaniumColector.Classes.Procedimentos
                     if (item.Codigo == codigoEmbalagem)
                     {
                         item.remover();
+                        ProcedimentosLiberacao.TotalVolumes--;
+                        return;
                     }
                 }
             }
@@ -854,20 +812,30 @@ namespace TitaniumColector.Classes.Procedimentos
                 if (item.Codigo == codigoEmbalagem)
                 {
                      item.adicionar();
+                     ProcedimentosLiberacao.TotalVolumes++;
                      return;
                 }
             }
 
         }
 
+         /// <summary>
+         /// Calcula a quantidade de Volumes registrados para a proposta.
+         /// </summary>
+         /// <returns> quantidade total de cvolumes.</returns>
         public static int setTotalVolumes() 
         {
+            ProcedimentosLiberacao.TotalVolumes = 0;
             foreach (var item in ProcedimentosLiberacao.ListEmbalagensSeparacao)
             {
                 ProcedimentosLiberacao.TotalVolumes += item.Quantidade;
             }
 
             return TotalVolumes;
+        }
+
+        public static bool podeDecremetar() {
+           return ProcedimentosLiberacao.totalVolumes > 1;
         }
 
         #region "Descontinuado"

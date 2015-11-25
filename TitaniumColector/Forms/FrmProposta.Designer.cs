@@ -62,8 +62,6 @@ namespace TitaniumColector.Forms
             this.tbDescricao = new System.Windows.Forms.TextBox();
             this.tbPartNumber = new System.Windows.Forms.TextBox();
             this.dgProposta = new System.Windows.Forms.DataGrid();
-            this.btIncrementaVol = new System.Windows.Forms.Button();
-            this.btDecrementaVol = new System.Windows.Forms.Button();
             this.imgPropostas = new System.Windows.Forms.ImageList();
             this.btnVolumes = new TitaniumColector.Classes.Utility.ImageButton();
             this.pnlFrmProposta.SuspendLayout();
@@ -213,8 +211,6 @@ namespace TitaniumColector.Forms
             this.pnlFrmProposta.Controls.Add(this.lbCliente);
             this.pnlFrmProposta.Controls.Add(this.lbVolumes);
             this.pnlFrmProposta.Controls.Add(this.lbQtdVolumes);
-            this.pnlFrmProposta.Controls.Add(this.btIncrementaVol);
-            this.pnlFrmProposta.Controls.Add(this.btDecrementaVol);
             this.pnlFrmProposta.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFrmProposta.Location = new System.Drawing.Point(0, 0);
             this.pnlFrmProposta.Name = "pnlFrmProposta";
@@ -315,26 +311,7 @@ namespace TitaniumColector.Forms
             this.dgProposta.Name = "dgProposta";
             this.dgProposta.Size = new System.Drawing.Size(41, 37);
             this.dgProposta.TabIndex = 6;
-            // 
-            // btIncrementaVol
-            // 
-            this.btIncrementaVol.Location = new System.Drawing.Point(0, 0);
-            this.btIncrementaVol.Name = "btIncrementaVol";
-            this.btIncrementaVol.Size = new System.Drawing.Size(72, 20);
-            this.btIncrementaVol.TabIndex = 25;
-            this.btIncrementaVol.Tag = "N";
-            this.btIncrementaVol.Text = " + ";
-            this.btIncrementaVol.Click += new System.EventHandler(this.btIncrementaVol_Click);
-            // 
-            // btDecrementaVol
-            // 
-            this.btDecrementaVol.Location = new System.Drawing.Point(0, 0);
-            this.btDecrementaVol.Name = "btDecrementaVol";
-            this.btDecrementaVol.Size = new System.Drawing.Size(72, 20);
-            this.btDecrementaVol.TabIndex = 26;
-            this.btDecrementaVol.Tag = "N";
-            this.btDecrementaVol.Text = " - ";
-            this.btDecrementaVol.Click += new System.EventHandler(this.btDecrementaVol_Click);
+           
             // 
             // imgPropostas
             // 
@@ -342,7 +319,6 @@ namespace TitaniumColector.Forms
             this.imgPropostas.Images.Clear();
             this.imgPropostas.Images.Add(((System.Drawing.Icon)(resources.GetObject("resource"))));
             this.imgPropostas.Images.Add(((System.Drawing.Icon)(resources.GetObject("resource1"))));
-            this.imgPropostas.Images.Add(((System.Drawing.Icon)(resources.GetObject("resource2"))));
             // 
             // btnVolumes
             // 
@@ -591,6 +567,7 @@ namespace TitaniumColector.Forms
             this.lbQtdVolumes.ForeColor = System.Drawing.Color.White;
             this.lbQtdVolumes.Size = new System.Drawing.Size((int)fontStringSize.Width + 5, (int)fontStringSize.Height-2);
             this.lbQtdVolumes.Location = new System.Drawing.Point(lbProduto.Location.X + 2,lbProduto.Location.Y - lbProduto.Size.Height -2);
+         
             //
             //LbVolumes
             // 
@@ -601,15 +578,7 @@ namespace TitaniumColector.Forms
             fontStringSize = MainConfig.sizeStringEmPixel(this.lbVolumes.Text, MainConfig.FontPequenaItalicBold);
             this.lbVolumes.Size = new System.Drawing.Size((int)fontStringSize.Width + 2, (int)fontStringSize.Height);
             this.lbVolumes.Location = new System.Drawing.Point(lbQtdVolumes.Location.X + lbQtdVolumes.Size.Width+2, pnCentral.Location.Y + pnCentral.Size.Height + 2);
-            //
-            //btDecrementaVol
-            //
-            //this.btDecrementaVol.Size = new System.Drawing.Size(30, 25);
-            //this.btDecrementaVol.Font = MainConfig.FontMediaBold;
-            //this.btDecrementaVol.Location = new System.Drawing.Point(lbVolumes.Location.X + lbVolumes.Size.Width + 10, lbVolumes.Location.Y);
-            //this.btDecrementaVol.TabStop = false;
-            //this.btDecrementaVol.Visible = false;
-
+         
             //
             //btVolume
             //
@@ -617,7 +586,7 @@ namespace TitaniumColector.Forms
             btnVolumes.Parent = this;
             btnVolumes.Bounds = new Rectangle(lbVolumes.Location.X + lbVolumes.Size.Width + 10, lbVolumes.Location.Y, 30, 25);
             btnVolumes.ForeColor = Color.White;
-            btnVolumes.PressedImage = MainConfig.MakeBitmap(Color.Transparent, btnVolumes.Width, btnVolumes.Height);
+            btnVolumes.PressedImage = imgPropostas.Images[0];
             btnVolumes.BackGroundImage = imgPropostas.Images[1];
             btnVolumes.Text = "";
             btnVolumes.Tag = "N";
@@ -625,14 +594,7 @@ namespace TitaniumColector.Forms
             btnVolumes.Visible = true;
             btnVolumes.Click += new System.EventHandler(btnVolumes_Click);
 
-            //
-            //btDecrementaVol
-            //
             this.pnlFrmProposta.Controls.Add(this.btnVolumes);
-            this.btIncrementaVol.Size = new System.Drawing.Size(30, 25);
-            this.btIncrementaVol.Font = MainConfig.FontMediaBold;
-            this.btIncrementaVol.Location = new System.Drawing.Point(btDecrementaVol.Location.X + btDecrementaVol.Size.Width+15, lbVolumes.Location.Y);
-            this.btIncrementaVol.TabStop = false;
         }
 
 
@@ -664,8 +626,6 @@ namespace TitaniumColector.Forms
         private System.Windows.Forms.TextBox tbSequencia;
         private System.Windows.Forms.TextBox tbLote;
         private System.Windows.Forms.TextBox tbProduto;
-        private System.Windows.Forms.Button  btIncrementaVol;
-        private System.Windows.Forms.Button btDecrementaVol;
         private System.Windows.Forms.MenuItem mnuOpcoes_Terminar;
         private System.Windows.Forms.MenuItem mnuOpcoes_Logout;
         private System.Windows.Forms.MenuItem mnuOpcoes_Exit;

@@ -44,6 +44,7 @@ namespace TitaniumColector.Classes.Model
         public void adicionar()
         {
             this.Quantidade++;
+            calcularPesoTotal();
         }
 
         public void remover() 
@@ -51,10 +52,7 @@ namespace TitaniumColector.Classes.Model
             if (!this.isVazio())
             {
                 this.Quantidade--;
-            }
-            else 
-            {
-                throw new InvalidOperationException("Volume não pode ser menor que 1");
+                calcularPesoTotal();
             }
         }
 

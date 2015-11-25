@@ -88,10 +88,11 @@ namespace TitaniumColector.Forms
                 this.listItem.SubItems.Add(peso);
                 this.listVolumes.Items.Add(this.listItem);
             }
+
             this.listVolumes.Items[index].Selected = true;
         }
 
-        public void addVolume() 
+        private void addVolume() 
         {
             if (temItemSelecionado())
             {
@@ -104,20 +105,17 @@ namespace TitaniumColector.Forms
 
         private void removeVolume() 
         {
-            if (temItemSelecionado())
+            if (ProcedimentosLiberacao.podeDecremetar()) 
             {
-                int index = indexEmbalagemSelecionada();
-                ProcedimentosLiberacao.decrementaQtdEmbalagem(embalagemSelecionada());
-                carregarListEmbalagens(indexEmbalagemSelecionada());
-                itemFocado(index);
+                if (temItemSelecionado())
+                {
+                    int index = indexEmbalagemSelecionada();
+                    ProcedimentosLiberacao.decrementaQtdEmbalagem(embalagemSelecionada());
+                    carregarListEmbalagens(index);
+                    itemFocado(index);
+                }
             }
 
-            //if (this.listVolumes.SelectedIndices.Count > 0)
-            //{
-            //    int embalagem = Convert.ToInt32(this.listVolumes.FocusedItem.Tag);
-            //    ProcedimentosLiberacao.decrementaQtdEmbalagem(embalagem);
-            //    carregarListEmbalagens();
-            //}
         }
 
         private bool temItemSelecionado() 

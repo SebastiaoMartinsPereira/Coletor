@@ -8,7 +8,7 @@ namespace TitaniumColector.Classes.Utility
 {
     class ImageButton : System.Windows.Forms.Control
     {
-        Image backGroudImage, pressedImage,auxImage;
+        Image backGroudImage, pressedImage;
 
         bool pressed = false;
 
@@ -69,13 +69,16 @@ namespace TitaniumColector.Classes.Utility
 
         protected override void OnClick(EventArgs e)
         {
-            this.auxImage = backGroudImage;
-            this.backGroudImage = this.pressedImage;
+            this.pressed = true;
+            Rectangle rec = new Rectangle();
+            System.Windows.Forms.PaintEventArgs paintEvent 
+                = new System.Windows.Forms.PaintEventArgs(this.CreateGraphics(),rec);
+            this.OnPaint(paintEvent);
             base.OnClick(e);
         }
+
         protected override void OnLostFocus(EventArgs e)
         {
-            this.backGroudImage = this.auxImage;
             base.OnLostFocus(e);
         }
     }

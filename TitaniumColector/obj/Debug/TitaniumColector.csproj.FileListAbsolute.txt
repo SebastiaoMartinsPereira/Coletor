@@ -47,3 +47,16 @@ C:\Clientes\Tecware\COMPONENTES\ColetorMobile\TitaniumColector\bin\Debug\System.
 C:\Clientes\Tecware\COMPONENTES\ColetorMobile\TitaniumColector\bin\Debug\System.Data.SqlServerCe.dll
 C:\Clientes\Tecware\COMPONENTES\ColetorMobile\TitaniumColector\obj\Debug\TitaniumColector.pdb
 C:\Clientes\Tecware\COMPONENTES\ColetorMobile\TitaniumColector\obj\Debug\TitaniumColector.Forms.FrmVolumes.resources
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\bin\Debug\TitaniumColector.exe
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\bin\Debug\TitaniumColector.pdb
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\bin\Debug\System.Data.SqlClient.dll
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\bin\Debug\System.Data.SqlServerCe.dll
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.Forms.FrmAcao.resources
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.frmLogin.resources
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.Forms.FrmProposta.resources
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.Forms.FrmVolumes.resources
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.Properties.Resources.resources
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.csproj.GenerateResource.Cache
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.exe
+C:\Users\sebastiao.martins\Documents\Visual Studio 2008\Projects\Coletor\TitaniumColector\obj\Debug\TitaniumColector.pdb

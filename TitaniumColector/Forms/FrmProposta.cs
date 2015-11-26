@@ -351,12 +351,20 @@ namespace TitaniumColector.Forms
                 ProcedimentosLiberacao.inicializarProcedimentos(Convert.ToDouble(listInfoProposta[4]), Convert.ToDouble(listInfoProposta[3]), proposta.ListObjItemProposta[0].Quantidade, proposta.Volumes);
 
                 //Carrega o formulário com as informações que serão manusueadas para a proposta e o item da proposta
-                this.fillCamposForm(proposta.Numero, (string)proposta.RazaoCliente, proposta.Totalpecas, proposta.TotalItens, (string)proposta.ListObjItemProposta[0].Partnumber, (string)proposta.ListObjItemProposta[0].Descricao, (string)proposta.ListObjItemProposta[0].NomeLocalLote, proposta.ListObjItemProposta[0].Quantidade.ToString());
-
-                this.inicializaQtdVolumes();
+                //this.fillCamposForm(proposta.Numero, (string)proposta.RazaoCliente, proposta.Totalpecas, proposta.TotalItens, (string)proposta.ListObjItemProposta[0].Partnumber, (string)proposta.ListObjItemProposta[0].Descricao, (string)proposta.ListObjItemProposta[0].NomeLocalLote, proposta.ListObjItemProposta[0].Quantidade.ToString());
+                this.fillCamposForm(proposta);
 
                 //Retorna o objeto proposta o qual terá suas informações trabalhadas do processo de conferencia do item.
                 return proposta;
+            }
+            catch (ArithmeticException ex) 
+            {
+                StringBuilder sbMsg = new StringBuilder();
+                sbMsg.Append("Problemas durante o processamento de informações sobre a proposta.\n");
+                sbMsg.AppendFormat("Error : {0}", ex.Message);
+                MainConfig.errorMessage(sbMsg.ToString(), "Operação Inválida!");
+                throw;
+                //return null;
             }
             catch (Exception ex)
             {
@@ -365,7 +373,8 @@ namespace TitaniumColector.Forms
                 sbMsg.AppendFormat("Error : {0}", ex.Message);
                 sbMsg.Append("Contate o Administrador do sistema.");
                 MainConfig.errorMessage(sbMsg.ToString(), "Sistem Error!");
-                return null;
+                throw;
+                //return null;
             }
             finally 
             {
@@ -373,7 +382,6 @@ namespace TitaniumColector.Forms
                 objTransacoes = null;
                 daoProposta = null;
                 proposta = null;
-
             }
 
         }
@@ -424,9 +432,9 @@ namespace TitaniumColector.Forms
 
             lbNumeroPedido.Text = numeroProposta.ToString();
             lbNomeCliente.Text = nomeCliente;
-            lbQtdPecas.Text = this.intOrDecimal(qtdPecas.ToString()) + " Pçs";
-            lbQtdVolumes.Text = ProcedimentosLiberacao.TotalVolumes.ToString();     
-            lbQtdItens.Text = qtdItens.ToString() + " Itens";
+            lbQtdPecas.Text = this.intOrDecimal(ProcedimentosLiberacao.TotalPecas.ToString()) + " Pçs";
+            lbQtdVolumes.Text = ProcedimentosLiberacao.TotalVolumes.ToString();
+            lbQtdItens.Text = ProcedimentosLiberacao.TotalItens.ToString() + " Itens";
             tbPartNumber.Text = partnumber;
             tbDescricao.Text = produto;
             if (local.Contains(','))
@@ -438,6 +446,28 @@ namespace TitaniumColector.Forms
             tbQuantidade.Text = this.intOrDecimal(quantidadeItem);
 
         }
+
+        private void fillCamposForm(Proposta prop)
+        {
+
+            System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("pt-BR");
+
+            lbNumeroPedido.Text = prop.Numero.ToString();        //numeroProposta.ToString();
+            lbNomeCliente.Text = prop.RazaoCliente.ToString();  // nomeCliente;
+            lbQtdPecas.Text = this.intOrDecimal(ProcedimentosLiberacao.TotalPecas.ToString()) + " Pçs";
+            lbQtdVolumes.Text = ProcedimentosLiberacao.TotalVolumes.ToString();
+            lbQtdItens.Text = ProcedimentosLiberacao.TotalItens.ToString() + " Itens";
+            tbPartNumber.Text = prop.ListObjItemProposta[0].Partnumber.ToString();
+            tbDescricao.Text = prop.ListObjItemProposta[0].Descricao;
+            if (prop.ListObjItemProposta[0].NomeLocalLote.Contains(','))
+            {
+                tbLocal.Font = MainConfig.FontGrandeBold;
+            }
+            tbLocal.Text = prop.ListObjItemProposta[0].NomeLocalLote;
+            tbQuantidade.Text = this.intOrDecimal(prop.ListObjItemProposta[0].Quantidade);
+
+        }
+
         
         /// <summary>
         /// Realiza todos os procedimentos nescessários para carregar o próximo item a ser separado.
@@ -831,6 +861,7 @@ namespace TitaniumColector.Forms
             lbQtdVolumes.Text = ProcedimentosLiberacao.TotalVolumes.ToString();
 
         }
+
     #endregion
 
     #region "GET E SET"

@@ -82,7 +82,7 @@ namespace TitaniumColector.Classes.Model
 
         public override string ToString()
         {
-            return String.Format("Codigo : {0}\nNome : {1}\nQuantidade : {2} \nPadrao: {3} ",this.Codigo,this.Nome,this.Quantidade,this.Padrao);
+            return String.Format("Codigo : {0}\n Nome : {1}\n Quantidade : {2} \n Padrao: {3} ",this.Codigo,this.Nome,this.Quantidade,this.Padrao);
         }
 
         public override bool Equals(object obj)
@@ -92,7 +92,7 @@ namespace TitaniumColector.Classes.Model
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return base.Codigo + Convert.ToInt32(base.Padrao)+ base.Nome.Length;
         }
     }
 }

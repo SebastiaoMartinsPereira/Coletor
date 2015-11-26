@@ -84,8 +84,6 @@ namespace TitaniumColector.Forms
             this.listVolumes.Location = new System.Drawing.Point(MainConfig.intPositionX + 2, MainConfig.intPositionY + 2);
             this.listVolumes.View = System.Windows.Forms.View.Details;
 
-
-
             //
             //Colunas ListVolumes
             //
@@ -94,17 +92,6 @@ namespace TitaniumColector.Forms
             this.listVolumes.Columns.Add("Qtd", 40, System.Windows.Forms.HorizontalAlignment.Center);
             this.listVolumes.Columns.Add("Peso", 60, System.Windows.Forms.HorizontalAlignment.Center);
 
-            //apenas para visualização no form (TESTE)
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    this.listItem = new System.Windows.Forms.ListViewItem();
-            //    this.listItem.Text = " 12345";
-            //    this.listItem.SubItems.Add("Caixa 10");
-            //    this.listItem.SubItems.Add("99");
-            //    this.listItem.SubItems.Add("99,999");
-            //    this.listVolumes.Items.Add(this.listItem);
-            //}
 
             //
             //painel de Botões
@@ -151,37 +138,35 @@ namespace TitaniumColector.Forms
             this.lblValVolumes.Font = MainConfig.FontPequenaBold;
             this.fontStringSize = MainConfig.sizeStringEmPixel(this.lblValVolumes.Text, MainConfig.FontPequenaBold);
             this.lblValVolumes.Size = new Size((int)this.fontStringSize.Width, (int)this.fontStringSize.Height);
-            this.lblValVolumes.Location = new Point(lblVolumes.Location.X + lblVolumes.Width + 15, lblVolumes.Location.Y);
+            this.lblValVolumes.Location = new Point(lblVolumes.Location.X + lblVolumes.Width + 65, lblVolumes.Location.Y);
             this.lblValVolumes.Text = "000";
 
-            this.lblPesoProd.Text = "Produtos_:";
+            this.lblPesoProd.Text = "Peso_Produtos_:";
             this.lblPesoProd.Font = MainConfig.FontPequenaBold;
             this.fontStringSize = MainConfig.sizeStringEmPixel(this.lblPesoProd.Text, MainConfig.FontPequenaBold);
             this.lblPesoProd.Size = new Size((int)this.fontStringSize.Width, (int)this.fontStringSize.Height);
             this.lblPesoProd.Location = new Point(12, this.lblVolumes.Location.Y + this.lblVolumes.Height + 1);
-            this.lblPesoProd.Text = String.Format("Produtos :");
+            this.lblPesoProd.Text = String.Format("Peso Produtos :");
 
 
             this.lblValPesoProd.Text = "1000,000_Kg";
             this.lblValPesoProd.Font = MainConfig.FontPequenaBold;
             this.fontStringSize = MainConfig.sizeStringEmPixel(this.lblValPesoProd.Text, MainConfig.FontPequenaBold);
             this.lblValPesoProd.Size = new Size((int)this.fontStringSize.Width, (int)this.fontStringSize.Height);
-            //this.lblValPesoProd.Location = new Point(lblVolumes.Location.X + lblPesoProd.Width + 12, lblPesoProd.Location.Y);
             this.lblValPesoProd.Location = new Point(this.lblValVolumes.Location.X, this.lblPesoProd.Location.Y);
             this.lblValPesoProd.Text = String.Format("1000,000 Kg");
 
-            this.lblPesoEmb.Text = "Embalagem_:";
+            this.lblPesoEmb.Text = "Peso_Embalagem_:";
             this.lblPesoEmb.Font = MainConfig.FontPequenaBold;
             this.fontStringSize = MainConfig.sizeStringEmPixel(this.lblPesoEmb.Text, MainConfig.FontPequenaBold);
             this.lblPesoEmb.Size = new Size((int)this.fontStringSize.Width, (int)this.fontStringSize.Height);
             this.lblPesoEmb.Location = new Point(12, this.lblPesoProd.Location.Y + this.lblPesoProd.Height + 1);
-            this.lblPesoEmb.Text = "Embalagens :";
+            this.lblPesoEmb.Text = "Peso Embalagens :";
 
             this.lblValPesoEmb.Text = "100,000_Kg";
             this.lblValPesoEmb.Font = MainConfig.FontPequenaBold;
             this.fontStringSize = MainConfig.sizeStringEmPixel(this.lblValPesoEmb.Text, MainConfig.FontPequenaBold);
             this.lblValPesoEmb.Size = new Size((int)this.fontStringSize.Width, (int)this.fontStringSize.Height);
-            //this.lblValPesoEmb.Location = new Point(lblPesoEmb.Location.X + lblPesoEmb.Width + 2, lblPesoEmb.Location.Y);
             this.lblValPesoEmb.Location = new Point(this.lblValVolumes.Location.X, this.lblPesoEmb.Location.Y);
             this.lblValPesoEmb.Text = String.Format("100,000 Kg");
 
@@ -237,7 +222,6 @@ namespace TitaniumColector.Forms
         private System.Windows.Forms.ListViewItem listItem;
         private System.Windows.Forms.Panel panelButtons;
         private System.Windows.Forms.Panel panelInform;
-        //private System.Windows.Forms.Button btnManejar;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.Label lblVolumes;

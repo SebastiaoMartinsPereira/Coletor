@@ -17,12 +17,6 @@ namespace TitaniumColector.Classes.Procedimentos
         private static Double totalPecas;
         private static Double qtdPecasItem;
         private static Double pesoTotalEmbalagens;
-
-        public static Double PesoTotalEmbalagens
-        {
-            get { return ProcedimentosLiberacao.pesoTotalEmbalagens; }
-            set { ProcedimentosLiberacao.pesoTotalEmbalagens = value; }
-        }
         private static Int32 totalVolumes;
         private static Int32 proximaEtiqueta;
         private static List<Etiqueta> listEtiquetasLidas;
@@ -42,6 +36,8 @@ namespace TitaniumColector.Classes.Procedimentos
             TotalItens = tItens;
             TotalPecas = tPecas;
             qtdPecasItem = pecasItens;
+            ProcedimentosLiberacao.setarVolumeInicial();
+            ProcedimentosLiberacao.calcularPesoTotalEmbalagens();
 
             if (ListEtiquetasGeradas != null)
             {
@@ -71,25 +67,12 @@ namespace TitaniumColector.Classes.Procedimentos
             TotalItens = tItens;
             TotalPecas = tPecas;
             qtdPecasItem = pecasItens;
-            TotalVolumes = qtdVolumes;
+            ProcedimentosLiberacao.inicializaQtdVolumes(qtdVolumes);
+            ProcedimentosLiberacao.calcularPesoTotalEmbalagens();
 
-            if (ListEtiquetasGeradas != null)
-            {
-                ListEtiquetasGeradas.Clear();
+            listEtiquetasLidas = new List<Etiqueta>();
 
-            }
-            else
-            {
-                listEtiquetasLidas = new List<Etiqueta>();
-            }
-
-            ProximaEtiqueta = 0;
-
-            if (ListEtiquetasGeradas != null)
-            {
-                ListEtiquetasGeradas.Clear();
-            }
-
+            //ProximaEtiqueta = 0;
             if (arrayStringToEtiqueta != null)
             {
                 arrayStringToEtiqueta = null;
@@ -199,6 +182,12 @@ namespace TitaniumColector.Classes.Procedimentos
         {
             get { return ProcedimentosLiberacao.listEmbalagensSeparacao; }
             set { ProcedimentosLiberacao.listEmbalagensSeparacao = value; }
+        }
+
+        public static Double PesoTotalEmbalagens
+        {
+            get { return ProcedimentosLiberacao.pesoTotalEmbalagens; }
+            set { ProcedimentosLiberacao.pesoTotalEmbalagens = value; }
         }
 
     #endregion
@@ -558,6 +547,76 @@ namespace TitaniumColector.Classes.Procedimentos
             EtiquetasLidas = new List<Etiqueta>();
         }
 
+        /// <summary>
+        /// Valida o tipo de etiqueta lido
+        /// </summary>
+        /// <param name="inputValue">informação capturada pelo leitor</param>
+        /// <returns>Etiqueta.tipo (EAN13,QRCODE,INVALID)</returns>
+        public static Etiqueta.Tipo validaInputValueEtiqueta(String inputValue)
+        {
+            Etiqueta.Tipo tipoEtiqueta;
+
+            int inputLength = inputValue.Length;
+
+            if (inputLength == 13)
+            {
+                tipoEtiqueta = Etiqueta.Tipo.BARRAS;
+            }
+            else if (inputLength > 13)
+            {
+                if (inputValue.Contains("PNUMBER:"))
+                {
+                    if (inputValue.Contains("DESCRICAO:"))
+                    {
+                        if (inputValue.Contains("EAN13:"))
+                        {
+                            if (inputValue.Contains("LOTE:"))
+                            {
+                                if (inputValue.Contains("SEQ:"))
+                                {
+                                    if (inputValue.Contains("QTD:"))
+                                    {
+                                        tipoEtiqueta = Etiqueta.Tipo.QRCODE;
+                                    }
+                                    else
+                                    {
+                                        tipoEtiqueta = Etiqueta.Tipo.INVALID;
+                                    }
+                                }
+                                else
+                                {
+                                    tipoEtiqueta = Etiqueta.Tipo.INVALID;
+                                }
+                            }
+                            else
+                            {
+                                tipoEtiqueta = Etiqueta.Tipo.INVALID;
+                            }
+                        }
+                        else
+                        {
+                            tipoEtiqueta = Etiqueta.Tipo.INVALID;
+                        }
+                    }
+                    else
+                    {
+                        tipoEtiqueta = Etiqueta.Tipo.INVALID;
+                    }
+                }
+                else
+                {
+                    tipoEtiqueta = Etiqueta.Tipo.INVALID;
+                }
+
+            }
+            else
+            {
+                tipoEtiqueta = Etiqueta.Tipo.INVALID;
+            }
+
+            return tipoEtiqueta;
+        }
+
         ///<summary>
          ///Altera o Valor do atributo Auxiliar que armazena informações sobre a Quantidade de Pecas
          ///</summary>
@@ -628,76 +687,6 @@ namespace TitaniumColector.Classes.Procedimentos
 
         }
 
-        /// <summary>
-        /// Valida o tipo de etiqueta lido
-        /// </summary>
-        /// <param name="inputValue">informação capturada pelo leitor</param>
-        /// <returns>Etiqueta.tipo (EAN13,QRCODE,INVALID)</returns>
-        public static Etiqueta.Tipo validaInputValueEtiqueta(String inputValue)
-         {
-            Etiqueta.Tipo tipoEtiqueta;
-
-            int inputLength = inputValue.Length;
-
-            if(inputLength==13)
-            {
-                tipoEtiqueta = Etiqueta.Tipo.BARRAS;
-            }
-            else if (inputLength > 13)
-            {
-                if (inputValue.Contains("PNUMBER:"))
-                {
-                    if (inputValue.Contains("DESCRICAO:"))
-                    {
-                        if (inputValue.Contains("EAN13:"))
-                        {
-                            if (inputValue.Contains("LOTE:"))
-                            {
-                                if (inputValue.Contains("SEQ:"))
-                                {
-                                    if (inputValue.Contains("QTD:"))
-                                    {
-                                        tipoEtiqueta = Etiqueta.Tipo.QRCODE;
-                                    }
-                                    else
-                                    {
-                                        tipoEtiqueta = Etiqueta.Tipo.INVALID;
-                                    }
-                                }
-                                else
-                                {
-                                    tipoEtiqueta = Etiqueta.Tipo.INVALID;
-                                }
-                            }
-                            else
-                            {
-                                tipoEtiqueta = Etiqueta.Tipo.INVALID;
-                            }
-                        }
-                        else
-                        {
-                            tipoEtiqueta = Etiqueta.Tipo.INVALID;
-                        }
-                    }
-                    else
-                    {
-                        tipoEtiqueta = Etiqueta.Tipo.INVALID;
-                    }
-                }
-                else
-                {
-                    tipoEtiqueta = Etiqueta.Tipo.INVALID;
-                }
-
-            }
-            else 
-            {
-                tipoEtiqueta = Etiqueta.Tipo.INVALID;
-            }
-        
-            return tipoEtiqueta;
-        }
-
         public static void interromperLiberacao(Proposta proposta)
         {
             if (!proposta.IsInterrompido) 
@@ -727,7 +716,7 @@ namespace TitaniumColector.Classes.Procedimentos
             return null;
         }
 
-         /// <summary>
+        /// <summary>
          /// Retorna a Embalagem Setada Como padrão.
          /// </summary>
          /// <returns>Objeto Embalagem Separação setado como padrão.</returns>
@@ -753,6 +742,47 @@ namespace TitaniumColector.Classes.Procedimentos
             {
                 throw new Exception("Problemas durante Procedimentos de Liberação!!\n");
             }         
+        }
+
+        /// <summary>
+        /// Define a quantidade de Volumes da Proposta 
+        /// </summary>
+        /// <remarks>
+        /// Quando a quantidade informada for igual a 0 será setando a quantidade de embalagens 
+        /// com 1 para a embalagem padrão contida na lista desta forma a quantidade de volumes inicial será 1
+        /// </remarks>
+        private static void inicializaQtdVolumes()
+        {
+            if (ProcedimentosLiberacao.TotalVolumes  == 0)
+            {
+                ProcedimentosLiberacao.setarVolumeInicial();
+            }
+        }
+
+        /// <summary>
+        /// Define a quantidade de Volumes da Proposta 
+        /// </summary>
+        /// <remarks>
+        /// Quando a quantidade informada for igual a 0 será setando a quantidade de embalagens 
+        /// com 1 para a embalagem padrão contida na lista desta forma a quantidade de volumes inicial será 1
+        /// </remarks>
+        /// <param name="qtdVolumes">quantidade de volumes ao iniciar o procedimento</param>
+        private static void inicializaQtdVolumes(int qtdVolumes)
+        {
+            if (qtdVolumes < 0) 
+            {
+                throw new ArithmeticException("O valor informado não pode ser negativo!");
+            }
+            else if (qtdVolumes == 0)
+            {
+                ProcedimentosLiberacao.setarVolumeInicial();
+                return;
+            }else
+            {
+                TotalVolumes = qtdVolumes;
+            }
+
+            
         }
 
         /// <summary>
@@ -789,16 +819,27 @@ namespace TitaniumColector.Classes.Procedimentos
         {
             try
             {
+                if (!podeDecremetar())
+                {
+                    throw new invalidArgumentException("A quantidade de volumes não pode ser menoor que 1!");
+                }
+
                 foreach (var item in ListEmbalagensSeparacao)
                 {
                     if (item.Codigo == codigoEmbalagem)
                     {
                         item.remover();
                         ProcedimentosLiberacao.TotalVolumes--;
+                        ProcedimentosLiberacao.PesoTotalEmbalagens -= item.Peso;
                         return;
                     }
                 }
+
             }
+            catch (invalidArgumentException ex)
+            {
+                MainConfig.errorMessage(ex.Message, "Gerenciar Volumes");
+            } 
             catch (InvalidOperationException ex)
             {
                 MainConfig.errorMessage(ex.Message,"Gerenciar Volumes");
@@ -813,19 +854,21 @@ namespace TitaniumColector.Classes.Procedimentos
                 {
                      item.adicionar();
                      ProcedimentosLiberacao.TotalVolumes++;
+                     ProcedimentosLiberacao.PesoTotalEmbalagens += item.Peso;
                      return;
                 }
             }
 
         }
 
-         /// <summary>
+        /// <summary>
          /// Calcula a quantidade de Volumes registrados para a proposta.
          /// </summary>
          /// <returns> quantidade total de cvolumes.</returns>
         public static int setTotalVolumes() 
         {
             ProcedimentosLiberacao.TotalVolumes = 0;
+
             foreach (var item in ProcedimentosLiberacao.ListEmbalagensSeparacao)
             {
                 ProcedimentosLiberacao.TotalVolumes += item.Quantidade;
@@ -834,8 +877,19 @@ namespace TitaniumColector.Classes.Procedimentos
             return TotalVolumes;
         }
 
-        public static bool podeDecremetar() {
+        private static bool podeDecremetar() {
            return ProcedimentosLiberacao.totalVolumes > 1;
+        }
+
+        private static void calcularPesoTotalEmbalagens()
+        {
+            ProcedimentosLiberacao.PesoTotalEmbalagens = 0;
+
+            foreach (var item in ProcedimentosLiberacao.ListEmbalagensSeparacao)
+            {
+                ProcedimentosLiberacao.PesoTotalEmbalagens += item.PesoTotal;
+            }
+
         }
 
         #region "Descontinuado"

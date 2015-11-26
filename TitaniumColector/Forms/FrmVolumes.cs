@@ -20,7 +20,7 @@ namespace TitaniumColector.Forms
             configurarForm();
         }
 
-        void FrmVolumes_Load(object sender, EventArgs e)
+        private void FrmVolumes_Load(object sender, EventArgs e)
         {
             carregarListEmbalagens();
 
@@ -31,15 +31,16 @@ namespace TitaniumColector.Forms
             
             if (temItens())
                 this.listVolumes.Items[0].Selected = true;
-            
+
+            atualizarDadosForm();
         }
 
-        void btnUp_Click(object sender, EventArgs e)
+        private void btnUp_Click(object sender, EventArgs e)
         {
             addVolume();
         }
 
-        void btnDown_Click(object sender, EventArgs e)
+        private void btnDown_Click(object sender, EventArgs e)
         {
             removeVolume();
         }
@@ -47,7 +48,7 @@ namespace TitaniumColector.Forms
         /// <summary>
         /// Carrega a listView de embalagens para visualização.
         /// </summary>
-        public void carregarListEmbalagens()
+        private void carregarListEmbalagens()
         {
             this.listVolumes.Items.Clear();
 
@@ -70,7 +71,7 @@ namespace TitaniumColector.Forms
         /// <summary>
         /// Carrega a listView de embalagens para visualização.
         /// </summary>
-        public void carregarListEmbalagens(int index)
+        private void carregarListEmbalagens(int index)
         {
             this.listVolumes.Items.Clear();
 
@@ -99,23 +100,29 @@ namespace TitaniumColector.Forms
                 int index = indexEmbalagemSelecionada();
                 ProcedimentosLiberacao.incrementaQtdEmbalagem(embalagemSelecionada());
                 carregarListEmbalagens(indexEmbalagemSelecionada());
+                atualizarDadosForm();
                 itemFocado(index);
             }
         }
 
         private void removeVolume() 
         {
-            if (ProcedimentosLiberacao.podeDecremetar()) 
+            try
             {
                 if (temItemSelecionado())
                 {
                     int index = indexEmbalagemSelecionada();
                     ProcedimentosLiberacao.decrementaQtdEmbalagem(embalagemSelecionada());
                     carregarListEmbalagens(index);
+                    atualizarDadosForm();
                     itemFocado(index);
                 }
             }
-
+            catch (Exception ex)
+            {
+                MainConfig.errorMessage(ex.Message, "Gerenciar Volumes");
+            }
+           
         }
 
         private bool temItemSelecionado() 
@@ -141,6 +148,18 @@ namespace TitaniumColector.Forms
         private void itemFocado(int index)
         {
             this.listVolumes.Items[index].Focused = true;
+        }
+
+        private void atualizarDadosForm() 
+        {
+            CultureInfo ptBr = CultureInfo.CreateSpecificCulture("pt-BR");
+            string volumes = string.Format(ProcedimentosLiberacao.TotalVolumes.ToString("000", ptBr));
+            string pesoEmbalagem = string.Format(ProcedimentosLiberacao.PesoTotalEmbalagens.ToString("00.000", ptBr));
+            string pesoProduto = string.Format(ProcedimentosLiberacao.PesoTotalEmbalagens.ToString("00.000", ptBr));
+
+            this.lblValVolumes.Text = volumes;
+            this.lblValPesoEmb.Text = pesoEmbalagem + " kg";
+            this.lblValTotal.Text = pesoProduto + " kg";
         }
 
     }

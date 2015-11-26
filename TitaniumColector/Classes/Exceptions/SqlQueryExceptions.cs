@@ -66,4 +66,24 @@ namespace TitaniumColector.Classes.Exceptions
         }
     }
 
+    class invalidArgumentException : Exception
+    {
+        public invalidArgumentException()
+        {
+
+        }
+
+        public invalidArgumentException(string message)
+            : base(message)
+        {
+
+        }
+
+        public invalidArgumentException(string message, Exception inner)
+            : base(message, inner)
+        {
+
+        }
+    }
+
 }
